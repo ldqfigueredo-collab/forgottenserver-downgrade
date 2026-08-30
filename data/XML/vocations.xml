@@ -90,4 +90,24 @@
 		<skill id="5" multiplier="1.1" />
 		<skill id="6" multiplier="1.1" />
 	</vocation>
+	<vocation id="9" clientid="1" name="Assassin" description="an assassin" gaincap="15" gainhp="8" gainmana="5" gainhpticks="4" gainhpamount="4" gainmanaticks="6" gainmanaamount="4" manamultiplier="1.5" attackspeed="2000" basespeed="230" soulmax="100" gainsoulticks="120" fromvoc="9">
+		<formula meleeDamage="1.0" distDamage="1.0" defense="1.0" armor="1.0" />
+		<skill id="0" multiplier="1.1" />
+		<skill id="1" multiplier="1.1" />
+		<skill id="2" multiplier="1.0" />
+		<skill id="3" multiplier="1.1" />
+		<skill id="4" multiplier="1.4" />
+		<skill id="5" multiplier="1.1" />
+		<skill id="6" multiplier="1.1" />
+	</vocation>
+	<vocation id="10" clientid="1" name="Nightblade" description="a nightblade" gaincap="20" gainhp="12" gainmana="8" gainhpticks="3" gainhpamount="6" gainmanaticks="4" gainmanaamount="6" manamultiplier="1.5" attackspeed="2000" basespeed="230" soulmax="200" gainsoulticks="15" fromvoc="9">
+		<formula meleeDamage="1.0" distDamage="1.0" defense="1.0" armor="1.0" />
+		<skill id="0" multiplier="1.1" />
+		<skill id="1" multiplier="1.1" />
+		<skill id="2" multiplier="1.0" />
+		<skill id="3" multiplier="1.1" />
+		<skill id="4" multiplier="1.4" />
+		<skill id="5" multiplier="1.1" />
+		<skill id="6" multiplier="1.1" />
+	</vocation>
 </vocations>

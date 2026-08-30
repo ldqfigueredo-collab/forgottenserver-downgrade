@@ -53,6 +53,10 @@
 	</wand>
 
 	<!-- Swords -->
+	<melee id="2402" unproperly="1"> <!-- Assassin's Dagger -->
+		<vocation name="Assassin" />
+		<vocation name="Nightblade" />
+	</melee>
 	<melee id="2396" action="removecharge" />
 	<melee id="2413" unproperly="1">
 		<vocation name="Knight" />

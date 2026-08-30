@@ -39,7 +39,7 @@ local function creatureSayCallback(cid, type, msg)
 		if msgcontains(msg, "rhyves") then
 			town[cid] = 2
 			destination[cid] = Position(159, 387, 6)
-			npcHandler:say("IN RHYVES! AND WHAT PROFESSION HAVE YOU CHOSEN: {KNIGHT}, {PALADIN}, {SORCERER}, OR {DRUID}?", cid)
+			npcHandler:say("IN RHYVES! AND WHAT PROFESSION HAVE YOU CHOSEN: {KNIGHT}, {PALADIN}, {SORCERER}, {DRUID}, OR {ASSASSIN}?", cid)
 			npcHandler.topic[cid] = 2
 		else
 			npcHandler:say("IN WHICH TOWN DO YOU WANT TO LIVE: {RHYVES}?", cid)
@@ -61,8 +61,12 @@ local function creatureSayCallback(cid, type, msg)
 			npcHandler:say("A KNIGHT! ARE YOU SURE? THIS DECISION IS IRREVERSIBLE!", cid)
 			npcHandler.topic[cid] = 3
 			vocation[cid] = 4
+		elseif msgcontains(msg, "assassin") then
+			npcHandler:say("AN ASSASSIN! ARE YOU SURE? THIS DECISION IS IRREVERSIBLE!", cid)
+			npcHandler.topic[cid] = 3
+			vocation[cid] = 9
 		else
-			npcHandler:say("{KNIGHT}, {PALADIN}, {SORCERER}, OR {DRUID}?", cid)
+			npcHandler:say("{KNIGHT}, {PALADIN}, {SORCERER}, {DRUID}, OR {ASSASSIN}?", cid)
 		end
 	elseif npcHandler.topic[cid] == 3 then
 		if msgcontains(msg, "yes") then
@@ -77,7 +81,7 @@ local function creatureSayCallback(cid, type, msg)
 			player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
 			destination:sendMagicEffect(CONST_ME_TELEPORT)
 		else
-			npcHandler:say("THEN WHAT? {KNIGHT}, {PALADIN}, {SORCERER}, OR {DRUID}?", cid)
+			npcHandler:say("THEN WHAT? {KNIGHT}, {PALADIN}, {SORCERER}, {DRUID}, OR {ASSASSIN}?", cid)
 			npcHandler.topic[cid] = 2
 		end
 	end
