@@ -503,3 +503,30 @@ The map ships `data/world/global-spawn.xml` with ~438 npc spawn entries carried 
 **Why 200/200/20 and not fewer**: success chance is probabilistic, not guaranteed, so "enough" means a comfortable buffer, not a literal minimum. Solving for 99.9% confidence of at least one success at each step (negative binomial, `n = ceil(ln(0.001)/ln(1-p))`) sums to ~101 attempts worst-case for the 10 Tier I steps and ~117 for the 3 Tier II steps; 200 of each covers that with margin. This is test-chest content only, deliberately far more generous than the live drop-gated economy (Tier II material is still boss-drop-only everywhere else) — not a balance change.
 
 **Not yet verified in a live client** — no GUI available this session; logic verified via `luac -p` syntax check and `xmllint --noout` only. The exact spawn tile (2 south of temple) is a best-effort pick based on Task/Promotion Master's confirmed-working offsets from the same point, not visually confirmed walkable.
+
+### Vocation-locked outfit unlocks (Outfitter NPC)
+
+Design proposed and approved per design rule 4 before implementation. 12 of the outfits shipped `unlocked="no"` in `data/XML/outfits.xml` (Pirate, Assassin, Beggar, Shaman, Norseman, Nightmare, Jester, Brotherhood, Demon Hunter, Yalaharian, Warmaster, Wayfarer) had no unlock path anywhere in-game — dead content. Gave each either a vocation-exclusive lock or left it universal, and built an NPC to sell the unlock using the existing Task Point currency (`PlayerStorageKeys.taskPoints`, previously only earned, never spent) plus gold. `Newly Wed` was deliberately left alone — that's a wedding-quest outfit, a separate system.
+
+| Outfit | Vocation lock | Level | Base cost | Per-addon cost |
+|---|---|---|---|---|
+| Pirate, Beggar, Jester | none (any vocation) | 20 | 15 TP + 8,000 gold | 5 TP + 5,000 gold |
+| Brotherhood, Warmaster | Knight (ids 4, 8) | 50 | 30 TP + 20,000 gold | 12 TP + 10,000 gold |
+| Demon Hunter, Wayfarer | Paladin (ids 3, 7) | 50 | 30 TP + 20,000 gold | 12 TP + 10,000 gold |
+| Nightmare, Yalaharian | Sorcerer (ids 1, 5) | 50 | 30 TP + 20,000 gold | 12 TP + 10,000 gold |
+| Shaman, Norseman | Druid (ids 2, 6) | 50 | 30 TP + 20,000 gold | 12 TP + 10,000 gold |
+| Assassin | Assassin/Nightblade (ids 9, 10) | 50 | 30 TP + 20,000 gold | 12 TP + 10,000 gold |
+
+| File | Change | Mechanism |
+|---|---|---|
+| `data/scripts/lib/outfit_unlocks.lua` | New — `OutfitVocationGroups` (vocation name → base+promoted id list) and `OutfitUnlocks` (per-outfit name/lookTypes/level/vocationGroup/cost), plus a derived `OutfitUnlocksByLookType` reverse index. Single source of truth for both the NPC and the lock hook below | `/reload scripts` |
+| `data/scripts/creaturescripts/outfit_vocation_lock.lua` | New — `EventCallback.onChangeOutfit` hook: vetoes (`return false`) an outfit change when the target lookType is in `OutfitUnlocksByLookType` with a `vocationGroup` the player's current vocation isn't in. GM/staff (`group:getAccess()`) bypass. Every other outfit (default unlocked ones, quest outfits, monster outfit changes) passes through untouched since it never matches the lookup | `/reload scripts` |
+| `data/events/events.xml` | Flipped `<event class="Creature" method="onChangeOutfit">` from `enabled="0"` to `enabled="1"` — this hook was wired up in `data/events/scripts/creature.lua` from the start but never activated, so it was a dead no-op before this | `/reload events` |
+| `data/npc/Outfitter.xml` + `data/npc/scripts/Outfitter.lua` | New NPC, keyword dialogue only (no ModalWindow — see the client-limitation note in `CLAUDE.md`). `{outfits}` lists every outfit the asking player currently qualifies for (level + vocation) and hasn't fully unlocked yet, tagged with its next purchasable step (base outfit / 1st addon / 2nd addon) and cost; saying an outfit's name starts a yes/no confirmation that deducts TP + gold and calls `player:addOutfit(lookType, addonBits)` on accept | `/reload npcs` (script-only) |
+| `data/globalevents/scripts/outfitter_npc_spawn.lua` + `data/globalevents/globalevents.xml` | New `onStartup()` spawning the Outfitter at `Position(32373, 32241, 7)` — 4 tiles east of the Thais temple (`32369, 32241, 7`), continuing the Task Master (+2 east) / Promotion Master (−2 west) line past Task Master rather than overlapping it | **Container restart** |
+
+**Why no new storage key**: outfit ownership is tracked natively by the engine's own per-account outfit list (`Player::addOutfit`/`hasOutfit`, `player->outfits`), not by a storage value — same mechanism the always-unlocked default outfits already use. The only storage this feature reads is the pre-existing `taskPoints` key; nothing new needed reserving from the `40000`–`49999` block.
+
+**PvP/economy flag (per design rule 3)**: no PvP impact — every effect here is purely cosmetic (`addOutfit`/`hasOutfit`/`canWear` never touch combat stats). Economically this is a pure sink layered on an existing pure-earn currency: Task Points had no spend target before this, and both TP and gold are consumed here with no new faucet added.
+
+**Not yet verified in a live client** — no GUI available this session; all new/edited files pass `luac -p` and `xmllint --noout` (see below). The Outfitter's spawn tile is a best-effort pick following the established east/west offset pattern from the temple, not visually confirmed walkable. `luacheck` wasn't run (not installed in this environment) — CI treats it as non-blocking anyway.
