@@ -1,5 +1,47 @@
 local foodCondition = Condition(CONDITION_REGENERATION, CONDITIONID_DEFAULT)
 
+-- CONDITION_PARAM_HEALTHGAINPERCENT/MANAGAINPERCENT (src/enums.h, values 60/61) power the
+-- engine's native percent-of-max regen (src/condition.cpp:1004-1051, currently only wired
+-- to item abilities) but aren't registered as named Lua enums (src/luascript.cpp) -- passing
+-- the raw numeric key to Condition:setParameter still works, since that binding takes any int.
+local CONDITION_PARAM_HEALTHGAINPERCENT = 60
+local CONDITION_PARAM_MANAGAINPERCENT = 61
+
+-- Extra regen per tick as a percent of max HP/mana, on top of the flat vocation amount.
+-- Encoded as 100 + extra% (100 = no bonus), matching the engine's own convention.
+local RegenPercent = {
+	[0] = {health = 100, mana = 100}, -- None
+	[1] = {health = 101, mana = 104}, -- Sorcerer
+	[2] = {health = 101, mana = 104}, -- Druid
+	[3] = {health = 102, mana = 102}, -- Paladin
+	[4] = {health = 103, mana = 101}, -- Knight
+	[5] = {health = 102, mana = 106}, -- Master Sorcerer
+	[6] = {health = 102, mana = 106}, -- Elder Druid
+	[7] = {health = 103, mana = 103}, -- Royal Paladin
+	[8] = {health = 105, mana = 102}, -- Elite Knight
+	[9] = {health = 101, mana = 101}, -- Assassin
+	[10] = {health = 102, mana = 102} -- Nightblade
+}
+
+function Player.updateRegenPercent(self)
+	local condition = self:getCondition(CONDITION_REGENERATION, CONDITIONID_DEFAULT)
+	if not condition then return end
+
+	local vocation = self:getVocation()
+	if not vocation then return end
+
+	local percent = RegenPercent[vocation:getId()] or RegenPercent[0]
+	condition:setParameter(CONDITION_PARAM_HEALTHGAINPERCENT, percent.health)
+	condition:setParameter(CONDITION_PARAM_MANAGAINPERCENT, percent.mana)
+end
+
+local nativeSetVocation = Player.setVocation
+function Player.setVocation(self, vocId)
+	local success = nativeSetVocation(self, vocId)
+	if success then self:updateRegenPercent() end
+	return success
+end
+
 function Player.feed(self, food)
 	local condition = self:getCondition(CONDITION_REGENERATION, CONDITIONID_DEFAULT)
 	if condition then
@@ -16,6 +58,7 @@ function Player.feed(self, food)
 
 		self:addCondition(foodCondition)
 	end
+	self:updateRegenPercent()
 	return true
 end
 
@@ -75,7 +118,17 @@ function Player.sendCancelMessage(self, message)
 	return self:sendTextMessage(MESSAGE_STATUS_SMALL, message)
 end
 
-function Player.isUsingOtClient(self) return self:getClient().os >= CLIENTOS_OTCLIENT_LINUX end
+-- NOTE: this fork adds its own OTCv8 handshake-string detection
+-- (isUsingOtcV8(), src/protocolgame.cpp "OTCv8 detect"), independent of the
+-- standard client.os field. Some OTCv8 builds/configs report client.os as a
+-- plain OS code (e.g. CLIENTOS_WINDOWS) rather than one of the
+-- CLIENTOS_OTCLIENT_* codes, which made this always return false for a
+-- genuinely-connected OTCv8 client and silently broke sendExtendedOpcode.
+-- Checking both signals covers real OTClient (any variant) and this fork's
+-- OTCv8 clients regardless of what os code they report.
+function Player.isUsingOtClient(self)
+	return self:getClient().os >= CLIENTOS_OTCLIENT_LINUX or self:isUsingOtcV8()
+end
 
 function Player.sendExtendedOpcode(self, opcode, buffer)
 	if not self:isUsingOtClient() then return false end

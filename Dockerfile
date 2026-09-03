@@ -11,7 +11,7 @@ ENV PATH="${VCPKG_ROOT}:${PATH}"
 # Instalar dependencias del proyecto
 WORKDIR /usr/src/forgottenserver-downgrade
 COPY vcpkg.json ./
-RUN /opt/vcpkg/vcpkg install --triplet x64-linux
+RUN /opt/vcpkg/vcpkg install --triplet arm64-linux
 # Copiar el resto del código
 COPY cmake /usr/src/forgottenserver-downgrade/cmake/
 COPY src /usr/src/forgottenserver-downgrade/src/

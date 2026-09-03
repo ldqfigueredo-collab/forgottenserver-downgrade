@@ -65,6 +65,10 @@ shopModule:addBuyableItem({'convince creature'}, 2290, 80, 1,
                           'convince creature rune')
 shopModule:addBuyableItem({'chameleon'}, 2291, 210, 1, 'chameleon rune')
 shopModule:addBuyableItem({'disintegrate'}, 2310, 80, 3, 'disintegrate rune')
+shopModule:addBuyableItem({'rune of empowerment', 'empowerment'}, 7759, 5000,
+                          1, 'rune of empowerment')
+shopModule:addBuyableItem({'rune of protection', 'protection'}, 8301, 15000,
+                          1, 'rune of protection')
 
 shopModule:addBuyableItemContainer({'bp ap'}, 2002, 8378, 2000, 1,
                                    'backpack of antidote potions')

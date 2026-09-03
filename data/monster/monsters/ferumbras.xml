@@ -141,5 +141,6 @@
 		<item name="red tome" chance="4000" />
 		<item name="small diamond" countmax="82" chance="4000" />
 		<item name="small ruby" countmax="92" chance="4000" />
+		<item id="8310" name="rune of ascension" chance="5000" />
 	</loot>
 </monster>

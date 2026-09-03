@@ -182,6 +182,10 @@ deSpawnRadius = 50
 removeOnDespawn = true
 walkToSpawnRadius = 15
 
+-- NOTE: ignoreSpawnBlock disables the classic anti-farm rule where a spawn
+-- point will not refill while a player is standing near it
+ignoreSpawnBlock = false
+
 -- Stamina
 staminaSystem = true
 

@@ -5,6 +5,19 @@
 		<vocation name="Knight" />
 		<vocation name="Elite Knight" />
 	</instant>
+	<!-- Assassin/Nightblade kit -->
+	<instant group="attack" name="Whirlwind" words="exori vortex" level="20" mana="200" premium="1" needweapon="1" selftarget="1" aggressive="0" cooldown="30000" needlearn="0" script="attack/whirlwind.lua">
+		<vocation name="Assassin" />
+		<vocation name="Nightblade" />
+	</instant>
+	<instant group="attack" name="Rupture" words="exori rup" level="25" mana="40" premium="1" range="5" casterTargetOrDirection="1" blockwalls="1" cooldown="6000" needlearn="0" script="attack/rupture.lua">
+		<vocation name="Assassin" />
+		<vocation name="Nightblade" />
+	</instant>
+	<instant group="attack" name="Earthen Strike" words="exori gran tera" level="15" mana="30" premium="1" needweapon="1" range="1" casterTargetOrDirection="1" blockwalls="1" cooldown="4000" needlearn="0" script="attack/earthen_strike.lua">
+		<vocation name="Assassin" />
+		<vocation name="Nightblade" />
+	</instant>
 	<instant group="attack" name="Death Strike" words="exori mort" level="16" mana="20" premium="1" range="3" casterTargetOrDirection="1" blockwalls="1" cooldown="2000" needlearn="0" script="attack/death_strike.lua">
 		<vocation name="Sorcerer" />
 		<vocation name="Master Sorcerer" />
@@ -124,6 +137,8 @@
 		<vocation name="Master Sorcerer" />
 		<vocation name="Elder Druid" />
 		<vocation name="Royal Paladin" />
+		<vocation name="Assassin" />
+		<vocation name="Nightblade" />
 	</instant>
 	<instant group="healing" name="Light Healing" words="exura" level="8" mana="20" aggressive="0" selftarget="1" cooldown="1000" needlearn="0" script="healing/light_healing.lua">
 		<vocation name="Sorcerer" />
@@ -132,6 +147,8 @@
 		<vocation name="Master Sorcerer" />
 		<vocation name="Elder Druid" />
 		<vocation name="Royal Paladin" />
+		<vocation name="Assassin" />
+		<vocation name="Nightblade" />
 	</instant>
 	<instant group="healing" name="Mass Healing" words="exura gran mas res" level="36" mana="150" premium="1" aggressive="0" cooldown="2000" needlearn="0" script="healing/mass_healing.lua">
 		<vocation name="Druid" />

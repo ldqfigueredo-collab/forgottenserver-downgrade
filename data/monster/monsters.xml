@@ -4,6 +4,9 @@
 	<monster name="Valkyrie" file="monsters/valkyrie.xml"/>
 	<monster name="Carrion Worm" file="monsters/carrion_worm.xml"/>
 	<monster name="Rotworm" file="monsters/rotworm.xml"/>
+	<monster name="Orange Rotworm" file="monsters/orange_rotworm.xml"/>
+	<monster name="Red Rotworm" file="monsters/red_rotworm.xml"/>
+	<monster name="Black Rotworm" file="monsters/black_rotworm.xml"/>
 	<monster name="Kongra" file="monsters/kongra.xml"/>
 	<monster name="Merlkin" file="monsters/merlkin.xml"/>
 	<monster name="Sibang" file="monsters/sibang.xml"/>
@@ -12,6 +15,9 @@
 	<monster name="Poison Spider" file="monsters/poison_spider.xml"/>
 	<monster name="Scorpion" file="monsters/scorpion.xml"/>
 	<monster name="Spider" file="monsters/spider.xml"/>
+	<monster name="Orange Spider" file="monsters/orange_spider.xml"/>
+	<monster name="Red Spider" file="monsters/red_spider.xml"/>
+	<monster name="Black Spider" file="monsters/black_spider.xml"/>
 	<monster name="Tarantula" file="monsters/tarantula.xml"/>
 	<monster name="Achad" file="monsters/achad.xml"/>
 	<monster name="Axeitus Headbanger" file="monsters/axeitus_headbanger.xml"/>
@@ -130,6 +136,9 @@
 	<monster name="Werewolf" file="monsters/werewolf.xml"/>
 	<monster name="Winter wolf" file="monsters/winter_wolf.xml"/>
 	<monster name="Wolf" file="monsters/wolf.xml"/>
+	<monster name="Orange Wolf" file="monsters/orange_wolf.xml"/>
+	<monster name="Red Wolf" file="monsters/red_wolf.xml"/>
+	<monster name="Black Wolf" file="monsters/black_wolf.xml"/>
 	<monster name="Chakoya Toolshaper" file="monsters/chakoya_toolshaper.xml"/>
 	<monster name="Chakoya Tribewarden" file="monsters/chakoya_tribewarden.xml"/>
 	<monster name="Chakoya Windcaller" file="monsters/chakoya_windcaller.xml"/>
@@ -314,7 +323,13 @@
 	<monster name="Quara Predator" file="monsters/quara_predator.xml"/>
 	<monster name="Quara Predator Scout" file="monsters/quara_predator_scout.xml"/>
 	<monster name="Cave Rat" file="monsters/cave_rat.xml"/>
+	<monster name="Orange Cave Rat" file="monsters/orange_cave_rat.xml"/>
+	<monster name="Red Cave Rat" file="monsters/red_cave_rat.xml"/>
+	<monster name="Black Cave Rat" file="monsters/black_cave_rat.xml"/>
 	<monster name="Rat" file="monsters/rat.xml"/>
+	<monster name="Orange Rat" file="monsters/orange_rat.xml"/>
+	<monster name="Red Rat" file="monsters/red_rat.xml"/>
+	<monster name="Black Rat" file="monsters/black_rat.xml"/>
 	<monster name="Crocodile" file="monsters/crocodile.xml"/>
 	<monster name="Hydra" file="monsters/hydra.xml"/>
 	<monster name="Rift Worm" file="monsters/rift_worm.xml"/>

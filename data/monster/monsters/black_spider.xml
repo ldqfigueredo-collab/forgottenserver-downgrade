@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Black Spider" nameDescription="a black spider" race="venom" experience="48" speed="152" manacost="210" raceId="9033">
+	<health now="26" max="26" />
+	<look type="30" corpse="5961" />
+	<targetchange interval="4000" chance="0" />
+	<flags>
+		<flag summonable="1" />
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="1" />
+		<flag convinceable="1" />
+		<flag pushable="1" />
+		<flag canpushitems="0" />
+		<flag canpushcreatures="0" />
+		<flag targetdistance="1" />
+		<flag staticattack="90" />
+		<flag runonhealth="6" />
+		<flag canwalkonenergy="0" />
+		<flag canwalkonfire="0" />
+		<flag canwalkonpoison="0" />
+		<flag lightlevel="6" lightcolor="95" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-12" />
+	</attacks>
+	<defenses armor="2" defense="2" />
+	<elements>
+		<element firePercent="-20" />
+	</elements>
+	<loot>
+		<item name="gold coin" countmax="5" chance="65000" />
+		<item name="spider fangs" chance="1425" />
+		<item name="crystal coin" chance="2000" /><!-- placeholder future-use bonus drop -->
+	</loot>
+</monster>

@@ -258,6 +258,7 @@ bool ConfigManager::load()
 	booleans[Boolean::MONSTER_OVERSPAWN] = getGlobalBoolean(L, "monsterOverspawn", false);
 	booleans[Boolean::ACCOUNT_MANAGER] = getGlobalBoolean(L, "accountManager", true);
 	booleans[Boolean::MANASHIELD_BREAKABLE] = getGlobalBoolean(L, "useBreakableManaShield", false);
+	booleans[Boolean::IGNORE_SPAWN_BLOCK] = getGlobalBoolean(L, "ignoreSpawnBlock", false);
 
 	strings[String::DEFAULT_PRIORITY] = getGlobalString(L, "defaultPriority", "high");
 	strings[String::SERVER_NAME] = getGlobalString(L, "serverName", "");

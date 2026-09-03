@@ -118,5 +118,6 @@
 		<item name="spellbook of lost souls" chance="16666" />
 		<item name="spellscroll of prophecies" chance="25000" />
 		<item name="spellbook of dark mysteries" chance="20000" />
+		<item id="8310" name="rune of ascension" chance="5000" />
 	</loot>
 </monster>

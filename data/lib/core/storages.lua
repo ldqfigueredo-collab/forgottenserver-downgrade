@@ -13,7 +13,20 @@ PlayerStorageKeys = {
 	madSheepSummon = 30023,
 	crateUsable = 30024,
 	achievementsBase = 300000,
-	achievementsCounter = 20000
+	achievementsCounter = 20000,
+
+	-- Task system (reserved block 40000-49999, see BUILD_NOTES.md)
+	taskCurrentId = 42000,
+	taskCurrentProgress = 42001,
+	taskPoints = 42002,
+
+	-- Player preferences/UI toggles (reserved block 45900-45999, see BUILD_NOTES.md)
+	autoLootEnabled = 45900,
+
+	-- Auto-loot blacklist: count + up to 50 slots at (autoLootBlacklistBase + i),
+	-- i = 0..49, reserving 45901-45951 within the same block
+	autoLootBlacklistCount = 45901,
+	autoLootBlacklistBase = 45902
 }
 
 GlobalStorageKeys = {}

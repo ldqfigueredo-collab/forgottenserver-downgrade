@@ -13805,8 +13805,9 @@
 		<attribute key="showcharges" value="1" />
 		<attribute key="decayTo" value="2391" />
 	</item>
-	<item id="7759" article="a" name="small enchanted sapphire">
-		<attribute key="weight" value="10" />
+	<item id="7759" article="a" name="rune of empowerment">
+		<attribute key="description" value="A common enchanted rune said to strengthen a weapon. Use it on a weapon to attempt an upgrade." />
+		<attribute key="weight" value="80" />
 	</item>
 	<item id="7760" article="a" name="small enchanted ruby">
 		<attribute key="weight" value="10" />
@@ -15205,9 +15206,9 @@
 	<item id="8300" article="a" name="flawless ice crystal">
 		<attribute key="weight" value="250" />
 	</item>
-	<item id="8301" name="holy soil">
-		<attribute key="weight" value="250" />
-		<attribute key="showcount" value="0" />
+	<item id="8301" article="a" name="rune of protection">
+		<attribute key="description" value="Use it on a weapon before attempting a masterwork upgrade — if the upgrade fails, this protects the weapon from slipping back a level. It is consumed only if it actually prevents a downgrade." />
+		<attribute key="weight" value="60" />
 	</item>
 	<item id="8302" name="iced soil">
 		<attribute key="weight" value="250" />
@@ -15246,9 +15247,9 @@
 	<item id="8309" article="a" name="nail">
 		<attribute key="weight" value="5" />
 	</item>
-	<item id="8310" name="neutral matter">
-		<attribute key="weight" value="250" />
-		<attribute key="showcount" value="0" />
+	<item id="8310" article="a" name="rune of ascension">
+		<attribute key="description" value="A rare, potent enchanted rune. Use it on a weapon of +10 or higher to attempt a masterwork upgrade." />
+		<attribute key="weight" value="80" />
 	</item>
 	<item id="8311" article="a" name="dead sea serpent">
 		<attribute key="weight" value="45000" />

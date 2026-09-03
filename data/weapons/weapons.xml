@@ -53,7 +53,7 @@
 	</wand>
 
 	<!-- Swords -->
-	<melee id="2402" unproperly="1"> <!-- Assassin's Dagger -->
+	<melee id="2402" unproperly="1" script="whirlwind_cleave.lua"> <!-- Assassin's Dagger -->
 		<vocation name="Assassin" />
 		<vocation name="Nightblade" />
 	</melee>

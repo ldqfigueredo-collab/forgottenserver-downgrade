@@ -126,5 +126,6 @@
 		<item id="2514" name="mastermind shield" chance="4545" />
 		<item id="8886" name="molten plate" chance="4545" />
 		<item id="2145" name="small diamond" chance="4545" countmax="5" />
+		<item id="8310" name="rune of ascension" chance="5000" />
 	</loot>
 </monster>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Orange Rotworm" nameDescription="an orange rotworm" race="blood" experience="80" speed="116" manacost="305" raceId="9021">
+	<health now="72" max="72" />
+	<look type="26" corpse="5967" />
+	<targetchange interval="4000" chance="0" />
+	<flags>
+		<flag summonable="0" />
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="0" />
+		<flag convinceable="1" />
+		<flag pushable="0" />
+		<flag canpushitems="0" />
+		<flag canpushcreatures="0" />
+		<flag targetdistance="1" />
+		<flag staticattack="70" />
+		<flag runonhealth="0" />
+		<flag canwalkonenergy="0" />
+		<flag canwalkonfire="0" />
+		<flag canwalkonpoison="0" />
+		<flag lightlevel="3" lightcolor="129" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-44" />
+	</attacks>
+	<defenses armor="8" defense="8" />
+	<loot>
+		<item id="2148" name="gold coin" chance="71834" countmax="17" />
+		<item id="2671" name="ham" chance="23120" />
+		<item id="2666" name="meat" chance="23007" />
+		<item id="10609" name="lump of dirt" chance="11505" />
+		<item id="2398" name="mace" chance="5107" />
+		<item id="3976" name="worm" chance="3516" countmax="3" />
+		<item id="2376" name="sword" chance="3504" />
+	</loot>
+</monster>

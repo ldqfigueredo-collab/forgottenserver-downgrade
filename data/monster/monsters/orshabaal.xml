@@ -124,5 +124,6 @@
 		<item id="2112" name="teddy bear" chance="5556" />
 		<item id="2421" name="thunder hammer" chance="5556" />
 		<item id="3955" name="voodoo doll" chance="5556" />
+		<item id="8310" name="rune of ascension" chance="5000" />
 	</loot>
 </monster>

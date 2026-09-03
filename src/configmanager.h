@@ -47,6 +47,7 @@ enum Boolean
 	MONSTER_OVERSPAWN,
 	ACCOUNT_MANAGER,
 	MANASHIELD_BREAKABLE,
+	IGNORE_SPAWN_BLOCK,
 
 	LAST_BOOLEAN /* this must be the last one */
 };

@@ -10,19 +10,22 @@ function onLogin(player)
 	end
 	player:sendTextMessage(MESSAGE_STATUS_DEFAULT, loginStr)
 
-	-- Promotion
+	-- Promotion (premium-independent: promotions never get reverted on login, see BUILD_NOTES.md)
 	local vocation = player:getVocation()
-	local promotion = vocation:getPromotion()
 	if player:isPremium() then
 		local value = player:getStorageValue(PlayerStorageKeys.promotion)
-		if value and value == 1 then player:setVocation(promotion) end
-	elseif not promotion then
-		player:setVocation(vocation:getDemotion())
+		if value and value == 1 then player:setVocation(vocation:getPromotion()) end
 	end
+
+	-- Refresh HP/mana regen percent in case a persisted regen condition predates a vocation change
+	player:updateRegenPercent()
 
 	-- Events
 	player:registerEvent("PlayerDeath")
 	player:registerEvent("DropLoot")
+	player:registerEvent("TaskKill")
+	player:registerEvent("TaskModalWindow")
+	player:registerEvent("LootBlacklistOpcode")
 
 	-- Update Experience Rate Stamina
 	player:updateStamina()

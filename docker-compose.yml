@@ -1,13 +1,15 @@
 services:
   db:
     image: mariadb:11.4
-    platform: linux/amd64
+    platform: linux/arm64
     restart: unless-stopped
     environment:
       MARIADB_DATABASE: forgottenserver
       MARIADB_USER: tfs
       MARIADB_PASSWORD: tfspass
       MARIADB_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
@@ -21,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    platform: linux/amd64
+    platform: linux/arm64
     restart: unless-stopped
     depends_on:
       db:

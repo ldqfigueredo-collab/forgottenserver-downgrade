@@ -8,6 +8,7 @@
 #include "configmanager.h"
 
 #include <fmt/color.h>
+#include <fmt/ranges.h>
 
 extern LuaEnvironment g_luaEnvironment;
 

@@ -65,12 +65,13 @@
 		<item name="platinum amulet" chance="2333" />
 		<item name="boots of haste" chance="4444" />
 		<item name="giant sword" chance="3000" />
-		<item name="silver dagger" chance="10000" />
+		<item name="assassin's dagger" chance="10000" />
 		<item name="fire axe" chance="5555" />
 		<item name="devil helmet" chance="9700" />
 		<item name="golden legs" chance="6500" />
 		<item name="knight legs" chance="6666" />
 		<item name="demon shield" chance="9999" />
 		<item id="6300" chance="7777" /><!-- death ring -->
+		<item id="8310" name="rune of ascension" chance="5000" />
 	</loot>
 </monster>

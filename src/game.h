@@ -544,9 +544,9 @@ private:
 	std::string motdHash;
 	uint32_t motdNum = 0;
 
-	uint32_t lastStageLevel = 0;
-	bool stagesEnabled = false;
-	bool useLastStageLevel = false;
+	[[maybe_unused]] uint32_t lastStageLevel = 0;
+	[[maybe_unused]] bool stagesEnabled = false;
+	[[maybe_unused]] bool useLastStageLevel = false;
 };
 
 #endif
