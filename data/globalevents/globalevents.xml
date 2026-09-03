@@ -4,6 +4,7 @@
 	<globalevent type="startup" name="TaskNpcSpawn" script="task_npc_spawn.lua" />
 	<globalevent type="startup" name="PromotionNpcSpawn" script="promotion_npc_spawn.lua" />
 	<globalevent type="startup" name="ErynNpcSpawn" script="eryn_npc_spawn.lua" />
+	<globalevent type="startup" name="TalentNpcSpawn" script="talent_npc_spawn.lua" />
 	<globalevent type="startup" name="WeaponUpgradeTestChest" script="weapon_upgrade_test_chest.lua" />
 	<globalevent type="record" name="PlayerRecord" script="record.lua" />
 	<globalevent name="Server Save" time="09:55:00" script="serversave.lua" />

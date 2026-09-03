@@ -20,12 +20,16 @@ function onLogin(player)
 	-- Refresh HP/mana regen percent in case a persisted regen condition predates a vocation change
 	player:updateRegenPercent()
 
+	-- Re-establish the talent-bonus condition, since it isn't persisted like an item ability
+	Talents.applyBonuses(player)
+
 	-- Events
 	player:registerEvent("PlayerDeath")
 	player:registerEvent("DropLoot")
 	player:registerEvent("TaskKill")
 	player:registerEvent("TaskModalWindow")
 	player:registerEvent("LootBlacklistOpcode")
+	player:registerEvent("TalentOpcode")
 
 	-- Update Experience Rate Stamina
 	player:updateStamina()

@@ -26,7 +26,21 @@ PlayerStorageKeys = {
 	-- Auto-loot blacklist: count + up to 50 slots at (autoLootBlacklistBase + i),
 	-- i = 0..49, reserving 45901-45951 within the same block
 	autoLootBlacklistCount = 45901,
-	autoLootBlacklistBase = 45902
+	autoLootBlacklistBase = 45902,
+
+	-- Talent tree (reserved block 40000-49999, see BUILD_NOTES.md): per-node
+	-- spent rank + last-respec timestamp. Available points are derived live
+	-- from player level, not stored.
+	talentRootCombat = 40000,
+	talentRootVital = 40001,
+	talentRootKiller = 40002,
+	talentPhysicalMastery = 40003,
+	talentArcaneMastery = 40004,
+	talentFortitude = 40005,
+	talentManaWell = 40006,
+	talentLethality = 40007,
+	talentVampirism = 40008,
+	talentLastReset = 40009
 }
 
 GlobalStorageKeys = {}
