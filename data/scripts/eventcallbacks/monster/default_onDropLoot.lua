@@ -19,6 +19,15 @@ event.onDropLoot = function(self, corpse)
 		end
 
 		if player then
+			-- Item rarity: roll once per freshly-created loot item (see
+			-- data/scripts/lib/rarity.lua). Must happen before the loot
+			-- message text is built below, so rarity-renamed items show up
+			-- correctly in the broadcast.
+			local droppedItems = corpse:getItems(false)
+			for i = 1, #droppedItems do
+				Rarity.tryApplyOnDrop(droppedItems[i])
+			end
+
 			-- Build the loot message before auto-loot moves anything, so
 			-- it always reflects what actually dropped.
 			local text = ("Loot of %s: %s"):format(mType:getNameDescription(),

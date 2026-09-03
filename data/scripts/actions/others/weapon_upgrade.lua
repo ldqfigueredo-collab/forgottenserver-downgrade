@@ -70,31 +70,15 @@ local runes = {
 	}
 }
 
-local function getBonusPercent(level)
+-- Exposed globally (not local) so data/scripts/lib/rarity.lua can read the
+-- same formula when recomputing an item that has both an upgrade level and
+-- a rarity tier — see Rarity.refreshCombinedDisplay for why that matters.
+WeaponUpgrade = {}
+
+function WeaponUpgrade.getBonusPercent(level)
 	local tier1Levels = math.min(level, 10)
 	local tier2Levels = math.max(level - 10, 0)
 	return tier1Levels * 2 + tier2Levels * 4
-end
-
-local function refreshDescription(weapon, level, protectionCharges)
-	local bonusPercent = getBonusPercent(level)
-	local description = "This weapon has been upgraded to +" .. level .. " (+" ..
-		                     bonusPercent .. "% attack)."
-	if protectionCharges and protectionCharges > 0 then
-		description = description .. " Protected against " .. protectionCharges ..
-			               " failed upgrade" ..
-			               (protectionCharges > 1 and "s" or "") .. "."
-	end
-	weapon:setAttribute("description", description)
-end
-
-local function applyLevel(weapon, level, baseAttack, baseName, protectionCharges)
-	local bonusPercent = getBonusPercent(level)
-	local newAttack = baseAttack + math.floor(baseAttack * bonusPercent / 100)
-	weapon:setAttribute("attack", newAttack)
-	weapon:setAttribute("name", "+" .. level .. " " .. baseName)
-	weapon:setCustomAttribute("upgradeLevel", level)
-	refreshDescription(weapon, level, protectionCharges)
 end
 
 local function getWeaponType(target)
@@ -107,6 +91,30 @@ end
 local function getBaseAttack(target, weaponType)
 	if weaponType == WEAPON_DISTANCE then return distanceVirtualBaseAttack end
 	return ItemType(target:getId()):getAttack()
+end
+
+local function protectionExtraDescription(protectionCharges)
+	if protectionCharges and protectionCharges > 0 then
+		return "Protected against " .. protectionCharges .. " failed upgrade" ..
+			       (protectionCharges > 1 and "s" or "") .. "."
+	end
+	return nil
+end
+
+-- Defers to Rarity.refreshCombinedDisplay (data/scripts/lib/rarity.lua) so
+-- an existing rarity tier's bonus is preserved instead of overwritten —
+-- previously this file set attack/name directly from its own bonus alone,
+-- which silently erased any rarity bonus already on the item.
+local function refreshDisplay(weapon, weaponType, protectionCharges)
+	Rarity.refreshCombinedDisplay(weapon, {
+		baseAttack = getBaseAttack(weapon, weaponType),
+		extraDescription = protectionExtraDescription(protectionCharges)
+	})
+end
+
+local function applyLevel(weapon, weaponType, level, protectionCharges)
+	weapon:setCustomAttribute("upgradeLevel", level)
+	refreshDisplay(weapon, weaponType, protectionCharges)
 end
 
 local weaponUpgrade = Action()
@@ -140,7 +148,7 @@ function weaponUpgrade.onUse(player, item, fromPosition, target, toPosition,
 		item:remove(1)
 		protectionCharges = protectionCharges + 1
 		target:setCustomAttribute("protectionCharges", protectionCharges)
-		refreshDescription(target, level, protectionCharges)
+		refreshDisplay(target, weaponType, protectionCharges)
 		target:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
 		player:say(
 			"Your weapon is now protected against " .. protectionCharges ..
@@ -157,14 +165,11 @@ function weaponUpgrade.onUse(player, item, fromPosition, target, toPosition,
 		return true
 	end
 
-	local baseAttack = getBaseAttack(target, weaponType)
-	local baseName = ItemType(target:getId()):getName()
-
 	item:remove(1)
 
 	if math.random(100) <= rune.chances[level] then
 		local newLevel = level + 1
-		applyLevel(target, newLevel, baseAttack, baseName, protectionCharges)
+		applyLevel(target, weaponType, newLevel, protectionCharges)
 		target:getPosition():sendMagicEffect(CONST_ME_MAGIC_GREEN)
 		player:say("Your weapon has been upgraded to +" .. newLevel .. "!",
 		          TALKTYPE_MONSTER_SAY)
@@ -174,7 +179,7 @@ function weaponUpgrade.onUse(player, item, fromPosition, target, toPosition,
 			if protectionCharges > 0 then
 				protectionCharges = protectionCharges - 1
 				target:setCustomAttribute("protectionCharges", protectionCharges)
-				refreshDescription(target, level, protectionCharges)
+				refreshDisplay(target, weaponType, protectionCharges)
 				player:say(
 					"The upgrade failed, but your weapon's protection absorbed the setback! (" ..
 						protectionCharges .. " protection" ..
@@ -182,7 +187,7 @@ function weaponUpgrade.onUse(player, item, fromPosition, target, toPosition,
 					TALKTYPE_MONSTER_SAY)
 			else
 				local newLevel = level - 1
-				applyLevel(target, newLevel, baseAttack, baseName, 0)
+				applyLevel(target, weaponType, newLevel, 0)
 				player:say(
 					"The upgrade failed and your weapon slipped to +" .. newLevel ..
 						"!", TALKTYPE_MONSTER_SAY)

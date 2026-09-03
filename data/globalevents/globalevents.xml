@@ -7,6 +7,8 @@
 	<globalevent type="startup" name="TalentNpcSpawn" script="talent_npc_spawn.lua" />
 	<globalevent type="startup" name="OutfitterNpcSpawn" script="outfitter_npc_spawn.lua" />
 	<globalevent type="startup" name="WeaponUpgradeTestChest" script="weapon_upgrade_test_chest.lua" />
+	<globalevent type="startup" name="AppraiserNpcSpawn" script="appraiser_npc_spawn.lua" />
+	<globalevent type="startup" name="RarityTestChest" script="rarity_test_chest.lua" />
 	<globalevent type="record" name="PlayerRecord" script="record.lua" />
 	<globalevent name="Server Save" time="09:55:00" script="serversave.lua" />
 	<!--

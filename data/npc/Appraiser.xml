@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Appraiser" script="Appraiser.lua" walkinterval="0" floorchange="0" speechbubble="1">
+	<health now="100" max="100" />
+	<look type="129" head="88" body="79" legs="78" feet="115" addons="0" />
+	<parameters>
+		<parameter key="message_greet" value="Greetings, |PLAYERNAME|. Wear a rare, epic or legendary item and ask me to {reroll} its fate." />
+	</parameters>
+</npc>
