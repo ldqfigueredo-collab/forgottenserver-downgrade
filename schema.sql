@@ -238,6 +238,15 @@ CREATE TABLE IF NOT EXISTS `house_lists` (
   FOREIGN KEY (`house_id`) REFERENCES `houses` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+CREATE TABLE IF NOT EXISTS `house_transfers` (
+  `house_id` int NOT NULL,
+  `from_guid` int NOT NULL,
+  `to_guid` int NOT NULL,
+  `executes_at` int unsigned NOT NULL,
+  PRIMARY KEY (`house_id`),
+  FOREIGN KEY (`house_id`) REFERENCES `houses` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 CREATE TABLE IF NOT EXISTS `market_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `player_id` int NOT NULL,

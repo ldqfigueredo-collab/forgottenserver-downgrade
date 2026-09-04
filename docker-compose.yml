@@ -35,5 +35,18 @@ services:
       - ./config.lua:/srv/config.lua
       - ./data:/srv/data
 
+  web:
+    build:
+      context: ./web
+    platform: linux/arm64
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/var/www/html
+
 volumes:
   db-data:

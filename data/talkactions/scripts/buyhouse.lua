@@ -1,20 +1,7 @@
-local config = {level = 1, onlyPremium = true}
-
+-- Door-based purchase. All the actual checks/price/rent-charge logic live in
+-- HousePurchase.buy (data/scripts/lib/house_rent.lua), shared with the house
+-- client-mod window's direct "buy_house" opcode action.
 function onSay(player, words, param)
-	local housePrice = configManager.getNumber(configKeys.HOUSE_PRICE)
-	if housePrice == -1 then return true end
-
-	if player:getLevel() < config.level then
-		player:sendCancelMessage("You need level " .. config.level ..
-			                         " or higher to buy a house.")
-		return false
-	end
-
-	if config.onlyPremium and not player:isPremium() then
-		player:sendCancelMessage("You need a premium account.")
-		return false
-	end
-
 	local position = player:getPosition()
 	position:getNextPosition(player:getDirection())
 
@@ -26,24 +13,13 @@ function onSay(player, words, param)
 		return false
 	end
 
-	if house:getOwnerGuid() > 0 then
-		player:sendCancelMessage("This house already has an owner.")
+	local success, reason = HousePurchase.buy(player, house)
+	if not success then
+		player:sendCancelMessage(reason)
 		return false
 	end
 
-	if player:getHouse() then
-		player:sendCancelMessage("You are already the owner of a house.")
-		return false
-	end
-
-	local price = house:getTileCount() * housePrice
-	if not player:removeTotalMoney(price) then
-		player:sendCancelMessage("You do not have enough money.")
-		return false
-	end
-
-	house:setOwnerGuid(player:getGuid())
 	player:sendTextMessage(MESSAGE_INFO_DESCR,
-	                       "You have successfully bought this house, be sure to have the money for the rent in the bank.")
+	                       "You have successfully bought this house. The first rent period has been charged from your bank account.")
 	return false
 end

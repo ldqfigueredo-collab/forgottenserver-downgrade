@@ -30,6 +30,7 @@ function onLogin(player)
 	player:registerEvent("TaskModalWindow")
 	player:registerEvent("LootBlacklistOpcode")
 	player:registerEvent("TalentOpcode")
+	player:registerEvent("HouseOpcode")
 
 	-- Update Experience Rate Stamina
 	player:updateStamina()

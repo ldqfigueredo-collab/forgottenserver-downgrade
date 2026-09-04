@@ -139,6 +139,17 @@ function Game.saveDebugAssert(playerGuid, assertLine, date, description, comment
 			db.escapeString(description) .. ", " .. db.escapeString(comment) .. ")")
 end
 
+-- Real billing (charge-on-purchase, recurring charge, eviction) lives in
+-- HouseRent (data/scripts/lib/house_rent.lua), which calls into
+-- Game.getRentPeriodHouse/Game.getRentPeriodDuration below. A previous
+-- in-place Game.payHouses/payRent implementation here was unused (nothing
+-- ever called it) and, on inspection, broken two independent ways: it passed
+-- a nil player into payRent in the offline-owner branch, and it called the
+-- non-existent player:getInbox() (the real API is
+-- player:getDepotChest(depotId, true), as used by
+-- data/movements/scripts/tiles.lua and the engine's own
+-- Houses::payHouses in src/house.cpp). Removed rather than fixed in place,
+-- see BUILD_NOTES.md.
 do
 	local periodMultiplier = {
 		[RENTPERIOD_DAILY] = 1,
@@ -149,7 +160,7 @@ do
 
 	local day = 24 * 60 * 60
 
-	local function getHousePaidUntil(rentPeriod)
+	function Game.getRentPeriodDuration(rentPeriod)
 		local multiplier = periodMultiplier[rentPeriod]
 		if not multiplier then return 0 end
 		return day * multiplier
@@ -172,57 +183,4 @@ do
 	}
 
 	function Game.getRentPeriodHouse(s) return periodRentNames[s] or RENTPERIOD_NEVER end
-
-	local function payRent(player, house, rent, rentPeriod, timeNow)
-		local paidUntil = timeNow + getHousePaidUntil(rentPeriod)
-		local nameRentPeriod = Game.getNameRentPeriodHouse(rentPeriod)
-		local payRentWarnings = house:getPayRentWarnings()
-		local houseName = house:getName()
-		local playerBalance = player:getBankBalance()
-		if playerBalance >= rent then
-			player:setBankBalance(playerBalance - rent)
-			house:setPaidUntil(paidUntil)
-			house:setPayRentWarnings(0)
-		elseif payRentWarnings < 7 then
-			local daysLeft = 7 - payRentWarnings
-
-			local stampedLetter = Game.createItem(ITEM_LETTER_STAMPED, 1)
-			stampedLetter:setAttribute(ITEM_ATTRIBUTE_TEXT, string.format(
-				                           "Warning! \nThe %s rent of %d gold for your house \"%s\" is payable. Have it within %d days or you will lose this house.",
-				                           nameRentPeriod, rent, houseName, daysLeft))
-
-			local playerInbox = player:getInbox()
-			playerInbox:addItemEx(stampedLetter, INDEX_WHEREEVER, FLAG_NOLIMIT)
-			house:setPayRentWarnings(payRentWarnings + 1)
-		else
-			house:setOwnerGuid(0)
-		end
-
-		player:save()
-	end
-
-	function Game.payHouses(rentPeriod)
-		if rentPeriod == RENTPERIOD_NEVER then return end
-
-		local currentTime = os.time()
-		for _, house in ipairs(Game.getHouses()) do
-			repeat
-				local ownerGuid = house:getOwnerGuid()
-				if ownerGuid == 0 then break end
-
-				local rent = house:getRent()
-				if rent == 0 or house:getPaidUntil() > currentTime then break end
-
-				if not house:getTown() then break end
-
-				local player = Player(ownerGuid)
-				if player then
-					payRent(player, house, rent, rentPeriod, currentTime)
-				else
-					local offlinePlayer<close> = OfflinePlayer(ownerGuid)
-					if offlinePlayer then payRent(player, house, rent, rentPeriod, currentTime) end
-				end
-			until true
-		end
-	end
 end

@@ -1852,6 +1852,37 @@ int luaPlayerGetHouse(lua_State* L)
 	return 1;
 }
 
+int luaPlayerAutoWalk(lua_State* L)
+{
+	// player:autoWalk(dirList)
+	// dirList is the direction-list table returned by creature:getPathTo(...) --
+	// queues real, speed-paced movement (the same call the engine makes for a
+	// player's own native "click to walk"), not an instant teleport.
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	if (!isTable(L, 2)) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	std::vector<Direction> dirList;
+	size_t len = lua_rawlen(L, 2);
+	dirList.reserve(len);
+	for (size_t i = 1; i <= len; ++i) {
+		lua_rawgeti(L, 2, i);
+		dirList.push_back(getInteger<Direction>(L, -1));
+		lua_pop(L, 1);
+	}
+
+	g_game.playerAutoWalk(player->getID(), dirList);
+	pushBoolean(L, true);
+	return 1;
+}
+
 int luaPlayerSendHouseWindow(lua_State* L)
 {
 	// player:sendHouseWindow(house, listId)
@@ -2424,6 +2455,7 @@ void LuaScriptInterface::registerPlayer()
 	registerMethod("Player", "getHouse", luaPlayerGetHouse);
 	registerMethod("Player", "sendHouseWindow", luaPlayerSendHouseWindow);
 	registerMethod("Player", "setEditHouse", luaPlayerSetEditHouse);
+	registerMethod("Player", "autoWalk", luaPlayerAutoWalk);
 
 	registerMethod("Player", "setGhostMode", luaPlayerSetGhostMode);
 
